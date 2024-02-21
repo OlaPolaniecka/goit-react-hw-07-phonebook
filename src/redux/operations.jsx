@@ -24,10 +24,10 @@ export const addContact = createAsyncThunk(
 
 export const deleteContact = createAsyncThunk(
   'contact/deleteContact',
-  async contactId => {
+  async contact => {
     const response = await axios.delete(
-      `https://65d223de987977636bfc00d6.mockapi.io/contacts/contacts/${contactId}`
+      `https://65d223de987977636bfc00d6.mockapi.io/contacts/contacts/${contact.id}`
     );
-    return response.contactId;
+    return response.contact;
   }
 );

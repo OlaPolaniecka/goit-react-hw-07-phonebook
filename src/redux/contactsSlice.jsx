@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, deleteContact } from './operations';
 
 const contactsSlice = createSlice({
@@ -29,7 +28,6 @@ const contactsSlice = createSlice({
       .addCase(addContact.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.list.push({
-          id: nanoid(),
           name: action.payload.name,
           number: action.payload.number,
         });
@@ -46,15 +44,20 @@ const contactsSlice = createSlice({
         state.list = state.list.filter(
           contact => contact.id !== action.payload
         );
+      })
+      .addCase(deleteContact.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
 
 export const selectVisibleContacts = state => {
-  const { list, filter } = state.contacts;
+  const { list } = state.contacts;
+  const { filter } = state.filter;
 
   return list.filter(contact =>
-    contact.name.toLowerCase().includes(filter.filter.toLowerCase())
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 };
 
