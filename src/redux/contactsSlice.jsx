@@ -27,10 +27,7 @@ const contactsSlice = createSlice({
       })
       .addCase(addContact.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.list.push({
-          name: action.payload.name,
-          number: action.payload.number,
-        });
+        state.list.push(action.payload);
       })
       .addCase(addContact.rejected, (state, action) => {
         state.status = 'failed';
